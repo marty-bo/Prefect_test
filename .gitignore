@@ -1,3 +1,10 @@
+
+# Python env
+env-prefect-test
+# Google API Credentials
+creds/*
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
