@@ -17,8 +17,8 @@ def rand_bool(prob:float) -> bool:
     return random.random() < prob
 
 @task
-def next_available_row(worksheet:gspread.Worksheet, headers_len:int):
-    cells = list(worksheet.col_values(1))[headers_len:]
+def next_available_row(worksheet:gspread.Worksheet, headers_len:int, col_num:int):
+    cells = list(worksheet.col_values(col_num))[headers_len:]
     if '' in cells:
         return cells.index('') + 1 + headers_len
     return len(cells) + 1 + headers_len
@@ -49,7 +49,7 @@ def get_worksheet() -> gspread.Worksheet:
     return client.open("prefect-spreadsheet").sheet1
 
 @task
-def write_in_sheet(sheet:gspread.Worksheet, row:int, status1:float, status2:float, status3:float):
+def write_probs_in_sheet(sheet:gspread.Worksheet, row:int, status1:bool, status2:bool, status3:bool):
     sheet.update(
         values=[[time.strftime('%d/%m/%Y %H:%M:%S'), status1, status2, status3]], 
         range_name=f"A{row}:D{row}")
@@ -63,17 +63,37 @@ def testing_prefect_deployment():
 @flow
 def write_status_in_sheet(prob1:float, prob2:float, prob3:float):
     logger = get_run_logger()
-    logger.info(f"Starting flow with parameters: {prob1}, {prob2}, {prob3}")
+    logger.info(f"Collecting status with probabilities {prob1}, {prob2}, {prob3}")
     sheet = get_worksheet()
-    row = next_available_row(sheet, 2)
+    row = next_available_row(sheet, 2, 1)
     logger.info(f"next available row is: {row}")
     status1 = rand_bool(prob1)
     status2 = rand_bool(prob2)
     status3 = rand_bool(prob3)
     logger.info(f"writing status in sheet: {status1}, {status2}, {status3}")
-    write_in_sheet(sheet, row, status1, status2, status3)
+    write_probs_in_sheet(sheet, row, status1, status2, status3)
     testing_prefect_deployment()
-    
+
+@task
+def get_status(sheet:gspread.Worksheet, row:int) -> list[str]:
+    logger = get_run_logger()
+    values = sheet.get(f"B{row}:D{row}")
+    logger.info(values)
+    return []
+
+@flow
+def analye_status():
+    logger = get_run_logger()
+    logger.info(f"Analysing lasts status")
+    sheet = get_worksheet()
+    row = next_available_row(sheet, 2, 5) - 1
+    logger.info(f"last row is: {row}")
+    status = get_status(sheet, row)
+    if len(status) != 3:
+        logger.error(f"Some status are missing in row {row}")
+    if "TRUE" in status:
+        logger.error(f"Alert on row {row}")
 
 if __name__ == '__main__':
     write_status_in_sheet()
+    analye_status()
