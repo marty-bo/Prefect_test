@@ -10,11 +10,9 @@ if __name__ == "__main__":
     ).deploy(
         name="google-sheet-deployment",
         parameters={
-            "github_repos": [
-                "PrefectHQ/prefect",
-                "pydantic/pydantic",
-                "huggingface/transformers"
-            ]
+            "prob1": 0.5,
+            "prob2": 0.2,
+            "prob3": 0.05
         },
         work_pool_name="my-work-pool2",
         cron="*/5 * * * *",  # Run every 5 minutes

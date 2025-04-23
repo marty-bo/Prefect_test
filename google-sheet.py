@@ -61,15 +61,15 @@ def testing_prefect_deployment():
     logger.info("Can you see it ?")
 
 @flow
-def write_status_in_sheet(github_repos: str):
+def write_status_in_sheet(prob1:int, prob2:int, prob3:int):
     logger = get_run_logger()
-    logger.info(f"Starting flow with parameter '{github_repos}'")
+    logger.info(f"Starting flow with parameters: {prob1}, {prob2}, {prob3}")
     sheet = get_worksheet()
     row = next_available_row(sheet, 2)
     logger.info(f"next available row is: {row}")
-    status1 = rand_bool(0.5)
-    status2 = rand_bool(0.2)
-    status3 = rand_bool(0.05)
+    status1 = rand_bool(prob1)
+    status2 = rand_bool(prob2)
+    status3 = rand_bool(prob3)
     logger.info(f"writing status in sheet: {status1}, {status2}, {status3}")
     write_in_sheet(sheet, row, status1, status2, status3)
     testing_prefect_deployment()
