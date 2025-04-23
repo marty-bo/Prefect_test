@@ -79,7 +79,7 @@ def get_status(sheet:gspread.Worksheet, row:int) -> list[str]:
     logger = get_run_logger()
     values = sheet.get(f"B{row}:D{row}")[0]
     logger.info(values)
-    return []
+    return values
 
 @flow
 def analye_status():
