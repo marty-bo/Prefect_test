@@ -61,8 +61,9 @@ def testing_prefect_deployment():
     logger.info("Can you see it ?")
 
 @flow
-def write_status_in_sheet():
+def write_status_in_sheet(github_repos: str):
     logger = get_run_logger()
+    logger.info(f"Starting flow with parameter '{github_repos}'")
     sheet = get_worksheet()
     row = next_available_row(sheet, 2)
     logger.info(f"next available row is: {row}")
