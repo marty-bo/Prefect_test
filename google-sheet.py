@@ -61,7 +61,7 @@ def testing_prefect_deployment():
     logger.info("Can you see it ?")
 
 @flow
-def write_status_in_sheet(prob1:int, prob2:int, prob3:int):
+def write_status_in_sheet(prob1:float, prob2:float, prob3:float):
     logger = get_run_logger()
     logger.info(f"Starting flow with parameters: {prob1}, {prob2}, {prob3}")
     sheet = get_worksheet()
