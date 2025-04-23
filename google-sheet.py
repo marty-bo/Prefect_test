@@ -77,16 +77,19 @@ def write_status_in_sheet(prob1:float, prob2:float, prob3:float):
 @task
 def get_status(sheet:gspread.Worksheet, row:int) -> list[str]:
     logger = get_run_logger()
-    values = sheet.get(f"B{row}:D{row}")
+    values = sheet.get(f"B{row}:D{row}")[0]
     logger.info(values)
     return []
 
 @flow
 def analye_status():
     logger = get_run_logger()
-    logger.info(f"Analysing lasts status")
+    logger.info("Analysing lasts status")
     sheet = get_worksheet()
-    row = next_available_row(sheet, 2, 5) - 1
+    row = next_available_row(sheet, 2, 1) - 1 # last row
+    if row <= 2:
+        logger.error("No row to analyse")
+        return
     logger.info(f"last row is: {row}")
     status = get_status(sheet, row)
     if len(status) != 3:

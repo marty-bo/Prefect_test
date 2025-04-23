@@ -17,7 +17,7 @@ if __name__ == "__main__":
             "prob3": 0.05
         },
         work_pool_name="my-work-pool2",
-        cron="*/5 * * * *",  # Run every 5 minutes
+        # cron="* */12 * * *",  # Run every 12 hours
     )
 
     flow.from_source(
