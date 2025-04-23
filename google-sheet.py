@@ -1,15 +1,16 @@
 
 
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+# from oauth2client.service_account import ServiceAccountCredentials
 import time
 import random
 from prefect import flow, task, get_run_logger
-from prefect.variables import Variable
+# from prefect.variables import Variable
 from google.oauth2.service_account import Credentials
 import json
+from prefect_gcp import GcpCredentials
 
-logger = get_run_logger()
+
 
 @task
 def rand_bool(prob:float) -> bool:
@@ -32,10 +33,15 @@ def get_worksheet() -> gspread.Worksheet:
     # connect using local json credential file
     # creds = ServiceAccountCredentials.from_json_keyfile_name("creds/prefect-test.json", scopes)
 
-    # connect using prefect variable containing json credential
-    json_creds = str(Variable.get("google_sheet_credentials", "{}")).replace("'", "\"")
-    creds_dict = json.loads(json_creds)
+    # connect using google credential block
+    json_creds = GcpCredentials.load("google-sheet-credentials").service_account_info.get_secret_value()
+    creds_dict = json.loads(str(json_creds).replace("'", '"'))
     creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+
+    # connect using prefect variable containing json credential
+    # json_creds = str(Variable.get("google_sheet_credentials", "{}")).replace("'", "\"")
+    # creds_dict = json.loads(json_creds)
+    # creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
 
 
     client = gspread.authorize(creds)
@@ -51,10 +57,12 @@ def write_in_sheet(sheet:gspread.Worksheet, row:int, status1:float, status2:floa
 
 @task
 def testing_prefect_deployment():
+    logger = get_run_logger()
     logger.info("Can you see it ?")
 
 @flow
 def write_status_in_sheet():
+    logger = get_run_logger()
     sheet = get_worksheet()
     row = next_available_row(sheet, 2)
     logger.info(f"next available row is: {row}")
