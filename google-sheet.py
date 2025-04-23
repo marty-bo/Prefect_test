@@ -9,6 +9,7 @@ from prefect.variables import Variable
 from google.oauth2.service_account import Credentials
 import json
 
+logger = get_run_logger()
 
 @task
 def rand_bool(prob:float) -> bool:
@@ -48,9 +49,12 @@ def write_in_sheet(sheet:gspread.Worksheet, row:int, status1:float, status2:floa
         range_name=f"A{row}:D{row}")
     sheet.copy_range(f"E{row-1}:G{row-1}", f"E{row}:G{row}")
 
+@task
+def testing_prefect_deployment():
+    logger.info("Can you see it ?")
+
 @flow
 def write_status_in_sheet():
-    logger = get_run_logger()
     sheet = get_worksheet()
     row = next_available_row(sheet, 2)
     logger.info(f"next available row is: {row}")
@@ -59,6 +63,7 @@ def write_status_in_sheet():
     status3 = rand_bool(0.05)
     logger.info(f"writing status in sheet: {status1}, {status2}, {status3}")
     write_in_sheet(sheet, row, status1, status2, status3)
+    testing_prefect_deployment()
     
 
 if __name__ == '__main__':
