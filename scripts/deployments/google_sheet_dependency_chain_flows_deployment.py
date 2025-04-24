@@ -13,7 +13,7 @@ if __name__ == "__main__":
         name="dep_chain_task_1",
         parameters={},
         work_pool_name="my-work-pool2",
-        tags={"dep_chain"},
+        tags={"dep_chain", "locking"},
         # cron="* */12 * * *",  # Run every 12 hours
     )
 
@@ -24,13 +24,13 @@ if __name__ == "__main__":
     ).deploy(
         name="dep_chain_task_2",
         work_pool_name="my-work-pool2",
-        tags={"dep_chain"},
+        tags={"dep_chain", "locking"},
         triggers=[
             DeploymentEventTrigger(
                 expect={"prefect.flow-run.Completed"},
                 match_related={"prefect.resource.name": "dep_chain_task_1"}
             )
-        ]
+        ],
     )
         
     flow.from_source(
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     ).deploy(
         name="dep_chain_task_3",
         work_pool_name="my-work-pool2",
-        tags={"dep_chain"},
+        tags={"dep_chain", "locking"},
         triggers=[
             DeploymentEventTrigger(
                 expect={"prefect.flow-run.Completed"},
