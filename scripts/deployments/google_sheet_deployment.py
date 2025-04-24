@@ -17,6 +17,7 @@ if __name__ == "__main__":
             "prob3": 0.2
         },
         work_pool_name="my-work-pool2",
+        tags={"monitoring"},
         # cron="* */12 * * *",  # Run every 12 hours
     )
 
@@ -26,6 +27,7 @@ if __name__ == "__main__":
     ).deploy(
         name="google_sheet_analyse_deployment",
         work_pool_name="my-work-pool2",
+        tags={"monitoring"},
         triggers=[
             DeploymentEventTrigger(
                 expect={"prefect.flow-run.Completed"},
