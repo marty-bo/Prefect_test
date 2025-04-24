@@ -1,4 +1,4 @@
 
 
 [logging]
-level = "DEBUG"
+level = "DEBUG" # eq PREFECT_LOGGING_LEVEL="DEBUG" in .env file
