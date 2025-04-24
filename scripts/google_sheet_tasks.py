@@ -10,7 +10,7 @@ from prefect_gcp import GcpCredentials
 SHEET1_SHEET = "0"
 DEPENDENCY_CHAIN_SHEET = "2123097791"
 
-@task
+@task(tags={"google-sheet"})
 def next_available_row(worksheet:gspread.Worksheet, headers_len:int, col_num:int):
     cells = list(worksheet.col_values(col_num))[headers_len:]
     if '' in cells:
@@ -18,7 +18,7 @@ def next_available_row(worksheet:gspread.Worksheet, headers_len:int, col_num:int
     return len(cells) + 1 + headers_len
 
 
-@task
+@task(tags={"google-sheet"})
 def get_worksheet(sheet_id:str) -> gspread.Worksheet:
     scopes = [
         'https://www.googleapis.com/auth/spreadsheets',
@@ -43,12 +43,12 @@ def get_worksheet(sheet_id:str) -> gspread.Worksheet:
     return client.open("prefect-spreadsheet").get_worksheet_by_id(sheet_id)
 
 
-@task
+@task(tags={"google-sheet"})
 def read_in_sheet(sheet:gspread.Worksheet, range:str) -> list[list[str]]:
     return sheet.get(range_name=range)
 
 
-@task
+@task(tags={"google-sheet"})
 def write_in_sheet(sheet:gspread.Worksheet, range:str, values:list[list]):
     sheet.update(
         values=values,
@@ -56,6 +56,6 @@ def write_in_sheet(sheet:gspread.Worksheet, range:str, values:list[list]):
     )
 
 
-@task
+@task(tags={"google-sheet"})
 def copy_in_sheet(sheet:gspread.Worksheet, from_range:str, to_range:str):
     sheet.copy_range(source=from_range, dest=to_range)

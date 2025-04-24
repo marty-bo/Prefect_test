@@ -1,4 +1,3 @@
-from importlib.metadata import entry_points
 from prefect import flow
 from prefect.events import DeploymentEventTrigger
 
@@ -12,9 +11,9 @@ if __name__ == "__main__":
     ).deploy(
         name="google_sheet_deployment",
         parameters={
-            "prob1": 0.2,
-            "prob2": 0.05,
-            "prob3": 0.2
+            "prob1": 0.5,
+            "prob2": 0.8,
+            "prob3": 0.5
         },
         work_pool_name="my-work-pool2",
         tags={"monitoring"},

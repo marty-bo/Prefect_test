@@ -39,7 +39,7 @@ def analye_status():
     if len(status) != 3:
         logger.error(f"Some status are missing in row {row}")
         analyses.append("Missing status")
-    if "TRUE" in status:
+    if "FALSE" in status:
         logger.error(f"Alert on row {row}")
         analyses.append("Alert")
     if len(analyses) == 0:
