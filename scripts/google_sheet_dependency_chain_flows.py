@@ -11,8 +11,8 @@ def task_1():
     sheet = gst.get_worksheet(gst.DEPENDENCY_CHAIN_SHEET)
     row = gst.next_available_row(sheet, 1, 2)
     cells = []
-    cells.append(Cell(row=row, col=1, vslue=time.strftime('%d/%m/%Y %H:%M:%S')))
-    cells.append(Cell(row=row, col=2, vslue="OK"))
+    cells.append(Cell(row=row, col=1, value=time.strftime('%d/%m/%Y %H:%M:%S')))
+    cells.append(Cell(row=row, col=2, value="OK"))
     gst.write_in_sheet_with_cells(sheet, cells)
 
 
@@ -21,8 +21,8 @@ def task_2():
     sheet = gst.get_worksheet(gst.DEPENDENCY_CHAIN_SHEET)
     row = gst.next_available_row(sheet, 1, 3)
     cells = []
-    cells.append(Cell(row=row, col=1, vslue=time.strftime('%d/%m/%Y %H:%M:%S')))
-    cells.append(Cell(row=row, col=3, vslue="OK"))
+    cells.append(Cell(row=row, col=1, value=time.strftime('%d/%m/%Y %H:%M:%S')))
+    cells.append(Cell(row=row, col=3, value="OK"))
     gst.write_in_sheet_with_cells(sheet, cells)
 
 
@@ -31,8 +31,8 @@ def task_3():
     sheet = gst.get_worksheet(gst.DEPENDENCY_CHAIN_SHEET)
     row = gst.next_available_row(sheet, 1, 4)
     cells = []
-    cells.append(Cell(row=row, col=1, vslue=time.strftime('%d/%m/%Y %H:%M:%S')))
-    cells.append(Cell(row=row, col=4, vslue="OK"))
+    cells.append(Cell(row=row, col=1, value=time.strftime('%d/%m/%Y %H:%M:%S')))
+    cells.append(Cell(row=row, col=4, value="OK"))
     gst.write_in_sheet_with_cells(sheet, cells)
 
 

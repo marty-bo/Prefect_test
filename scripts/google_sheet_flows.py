@@ -34,6 +34,10 @@ def analye_status():
         logger.error("No row to analyse")
         return
     logger.info(f"last row is: {row}")
+    analyse = gst.read_in_sheet(sheet, f"E{row}")[0]
+    if len(analyse) > 0:
+        logger.error(f"Analyse of row {row} is already done")
+        return
     status = gst.read_in_sheet(sheet, f"B{row}:D{row}")[0]
     analyses = []
     if len(status) != 3:
@@ -45,7 +49,7 @@ def analye_status():
     if len(analyses) == 0:
         logger.info(f"Row {row} is OK")
         analyses.append("OK")
-    gst.write_in_sheet(sheet, f"E{row}", [[";".join(analyses)]])
+    gst.write_in_sheet(sheet, f"E{row}", [["; ".join(analyses)]])
 
 if __name__ == '__main__':
     write_status_in_sheet()
