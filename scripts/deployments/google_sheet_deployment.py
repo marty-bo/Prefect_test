@@ -9,7 +9,7 @@ if __name__ == "__main__":
         source=SOURCE_REPO,
         entrypoint="scripts/google_sheet_flows.py:write_status_in_sheet", # Specific flow to run
     ).deploy(
-        name="google_sheet_deployment",
+        name="collect_monitoring_in_google_sheet",
         parameters={
             "prob1": 0.5,
             "prob2": 0.8,
@@ -24,13 +24,13 @@ if __name__ == "__main__":
         source=SOURCE_REPO,
         entrypoint="scripts/google_sheet_flows.py:analye_status"
     ).deploy(
-        name="google_sheet_analyse_deployment",
+        name="analyse_monitoring_in_google_sheet",
         work_pool_name="my-work-pool2",
         tags={"monitoring"},
         triggers=[
             DeploymentEventTrigger(
                 expect={"prefect.flow-run.Completed"},
-                match_related={"prefect.resource.name": "google_sheet_deployment"}
+                match_related={"prefect.resource.name": "collect_monitoring_in_google_sheet"}
             )
         ]
     )
