@@ -55,6 +55,10 @@ def write_in_sheet(sheet:gspread.Worksheet, range:str, values:list[list]):
         range_name=range
     )
 
+@task(tags={"google-sheet"})
+def write_in_sheet_with_cells(sheet:gspread.Worksheet, cells:list[gspread.Cell]):
+    sheet.update_cells(cells)
+
 
 @task(tags={"google-sheet"})
 def copy_in_sheet(sheet:gspread.Worksheet, from_range:str, to_range:str):
