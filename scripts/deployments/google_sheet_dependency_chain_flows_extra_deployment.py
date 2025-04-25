@@ -20,6 +20,7 @@ if __name__ == "__main__":
                     match_related={"prefect.resource.name": f"dep_chain_task_{i}"}
                 )
             ]),
+            job_variables={"env":{"EXTRA_PIP_PACKAGES": "gspread"}}
         )
 
         

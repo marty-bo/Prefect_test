@@ -18,6 +18,7 @@ if __name__ == "__main__":
         work_pool_name="my-work-pool2",
         tags={"monitoring"},
         # cron="* */12 * * *",  # Run every 12 hours
+        job_variables={"env":{"EXTRA_PIP_PACKAGES": "prefect_gcp gspread oauth2client"}}
     )
 
     flow.from_source(
@@ -32,5 +33,6 @@ if __name__ == "__main__":
                 expect={"prefect.flow-run.Completed"},
                 match_related={"prefect.resource.name": "collect_monitoring_in_google_sheet"}
             )
-        ]
+        ],
+        job_variables={"env":{"EXTRA_PIP_PACKAGES": "prefect_gcp gspread oauth2client"}}
     )
