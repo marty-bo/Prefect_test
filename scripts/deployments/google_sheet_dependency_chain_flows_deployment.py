@@ -1,4 +1,3 @@
-from importlib.metadata import entry_points
 from prefect import flow
 from prefect.events import DeploymentEventTrigger
 

@@ -34,8 +34,25 @@ async def task_2():
 async def task_3():
     await lock_and_work(4)
 
+@flow
+async def task_4():
+    await lock_and_work(5)
+
+
+@flow
+async def task_5():
+    await lock_and_work(6)
+
+
+@flow
+async def task_6():
+    await lock_and_work(7)
+
 
 if __name__ == '__main__':
     asyncio.run(task_1())
     asyncio.run(task_2())
     asyncio.run(task_3())
+    asyncio.run(task_4())
+    asyncio.run(task_5())
+    asyncio.run(task_6())

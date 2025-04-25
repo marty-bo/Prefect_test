@@ -52,5 +52,5 @@ def analye_status():
     gst.write_in_sheet(sheet, f"E{row}", [["; ".join(analyses)]])
 
 if __name__ == '__main__':
-    write_status_in_sheet()
+    write_status_in_sheet(0, 0.8, 1)
     analye_status()
